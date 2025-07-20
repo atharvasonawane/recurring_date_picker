@@ -2,30 +2,28 @@
 "use client"
 
 import { use, useState } from "react"
+import { useRecurrenceStore } from "@/store/recurrenctStore";
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function RecurringDatePicker() {
 
-    const [frequency, setFrequency] = useState("Daily");
-    const [selectedDays, setSelectedDays] = useState<string[]>([]);
-    // console.log(selectedDays);
 
-    const [interval, setInterval] = useState(1);
-    // console.log(interval);
 
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-    // console.log(startDate, endDate);
-
-    const [generatedDates, setGeneratedDates] = useState<string[]>([])
-
-    const toggleDay = (day: string) => {
-        setSelectedDays((prev) =>
-            prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
-        );
-
-    };
+    const {
+    frequency,
+    interval,
+    selectedDays,
+    startDate,
+    endDate,
+    generatedDates,
+    setFrequency,
+    setInterval,
+    toggleDay,
+    setStartDate,
+    setEndDate,
+    setGeneratedDates,
+  } = useRecurrenceStore()
 
     const handleGenerate = () => {
         if (!startDate) {
