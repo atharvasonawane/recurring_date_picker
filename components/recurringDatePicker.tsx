@@ -1,7 +1,11 @@
 
 "use client"
 
+import { useState } from "react"
+
 export default function RecurringDatePicker() {
+
+    const[frequency, setFrequency] = useState("Daily");
 
     return (
 
@@ -13,7 +17,12 @@ export default function RecurringDatePicker() {
                 {["Daily", "Weekly", "Monthly", "Yearly"].map((label) => (
                     <button
                         key={label}
-                        className="px-3 py-1 border rounded hover:bg-blue-100">
+                        onClick={() => setFrequency(label)}
+                        className={`px-3 py-1 border rounded ${
+                            frequency === label ? "bg-blue-500 text-white" : "hover:bg-blue-100 "
+                        }`}
+                    >
+
                         {label}
                     </button>
                 ))}
@@ -28,6 +37,7 @@ export default function RecurringDatePicker() {
             </div>
 
             {/* WEEKLY */}
+            {frequency === "Weekly" && (
             <div>
                 <label className="block mb-2">Select Days of Week</label>
                 <div className="flex gap-2">
@@ -41,6 +51,7 @@ export default function RecurringDatePicker() {
                     ))}
                 </div>
             </div>
+)}
 
             {/* DATE RANGE */}
             <div className="flex flex-col gap-2">
