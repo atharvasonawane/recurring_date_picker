@@ -1,19 +1,25 @@
 
 "use client"
 
-import { useState } from "react"
+import { use, useState } from "react"
 
 export default function RecurringDatePicker() {
 
     const[frequency, setFrequency] = useState("Daily");
     const[selectedDays, setSelectedDays] = useState<string[]>([]);
     console.log(selectedDays);
+    const[interval, setInterval] = useState(1);
+    console.log(interval);
 
+    const[startDate,setStartDate] = useState("");
+    const[endDate,setEndDate] = useState("");
+    console.log(startDate,endDate);
+    
     const toggleDay = (day:string) => {
         setSelectedDays((prev) => 
             prev.includes(day) ? prev.filter((d) => d !== day) : [...prev,day]
         );
-        console.log(selectedDays);
+
     };
     return (
 
@@ -41,7 +47,11 @@ export default function RecurringDatePicker() {
                 <label className="mb-1">Every </label>
                 <input type="number"
                     className="w-24 border px-2 py-1 rounded"
-                    placeholder="1" />
+                    placeholder="1"
+                    value={interval}
+                    onChange={(e) => setInterval(Number(e.target.value) || 1)} 
+                />
+                <span className="ml-2">{frequency.toLowerCase()}</span>
             </div>
 
             {/* WEEKLY */}
@@ -67,11 +77,17 @@ export default function RecurringDatePicker() {
             <div className="flex flex-col gap-2">
                 <label>
                     Start Date:
-                    <input type="date" className="border rounded ml-2 px-2 py-1" />
+                    <input type="date" className="border rounded ml-2 px-2 py-1"
+                           value={startDate}
+                           onChange={(e) => setStartDate(e.target.value)}
+                    />
                 </label>
                 <label>
                     End Date:
-                    <input type="date" className="border rounded ml-3 px-2 py-1"/>
+                    <input type="date" className="border rounded ml-3 px-2 py-1"
+                           value={endDate}
+                           onChange={(e) => setEndDate(e.target.value)}
+                    />
                 </label>
             </div>
 
