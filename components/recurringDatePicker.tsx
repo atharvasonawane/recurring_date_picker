@@ -78,6 +78,19 @@ export default function RecurringDatePicker() {
     }
     setGeneratedDates(dates);
 
+    if(frequency == "Monthly"){
+        let current = new Date(start);
+        let count = 0;
+        while(true){
+            dates.push(current.toISOString().split("T")[0]);
+            if(end && current >= end) break;
+            if(!end && count >= 9) break;
+            current.setMonth(current.getMonth() + interval);
+            count++;
+        }
+    }
+    setGeneratedDates(dates)
+
     }
 
 
