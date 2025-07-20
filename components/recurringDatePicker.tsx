@@ -1,0 +1,69 @@
+
+"use client"
+
+export default function RecurringDatePicker() {
+
+    return (
+
+        <div className="p-6 max-w-xl mx-auto bg-white shadow rounded space-y-6">
+            <h2 className="font-semibold">Recurring Date Picker</h2>
+
+            {/* Recurrence Options */}
+            <div className="flex gap-2">
+                {["Daily", "Weekly", "Monthly", "Yearly"].map((label) => (
+                    <button
+                        key={label}
+                        className="px-3 py-1 border rounded hover:bg-blue-100">
+                        {label}
+                    </button>
+                ))}
+            </div>
+
+            {/* EVERY X */}
+            <div>
+                <label className="mb-1">Every </label>
+                <input type="number"
+                    className="w-24 border px-2 py-1 rounded"
+                    placeholder="1" />
+            </div>
+
+            {/* WEEKLY */}
+            <div>
+                <label className="block mb-2">Select Days of Week</label>
+                <div className="flex gap-2">
+                    {["S", "M", "T", "W", "T", "F", "S"].map((day, idx) => (
+                        <button
+                            key={idx}
+                            className="w-10 h-10 border rounded hover:bg-green-100"
+                        >
+                            {day}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* DATE RANGE */}
+            <div className="flex flex-col gap-2">
+                <label>
+                    Start Date:
+                    <input type="date" className="border rounded ml-2 px-2 py-1" />
+                </label>
+                <label>
+                    End Date:
+                    <input type="date" className="border rounded ml-3 px-2 py-1"/>
+                </label>
+            </div>
+
+            {/* BUTTONS */}
+            <button className="bg-blue-600 rounded px-2 py-3 font-bold text-gray-950">
+                Generate Dates
+            </button>
+
+            {/* PREVIEW BOX */}
+            <div className="border rounded p-4 bg-gray-50">
+                <p className="text-gray-700">Selected recurring dates will show here..</p>
+            </div>
+
+        </div>
+    )
+}
