@@ -3,6 +3,8 @@
 
 import { use, useState } from "react"
 
+const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 export default function RecurringDatePicker() {
 
     const [frequency, setFrequency] = useState("Daily");
@@ -35,6 +37,8 @@ export default function RecurringDatePicker() {
         const end = endDate ? new Date(endDate) : null;
         const dates: string[] = [];
 
+        if(frequency == "Daily"){
+
         let current = new Date(start);
         let count = 0;
         while (true) {
@@ -47,6 +51,33 @@ export default function RecurringDatePicker() {
             count++;
         }
         setGeneratedDates(dates);
+    }
+
+    if(frequency == "Weekly"){
+
+        if(selectedDays.length === 0){
+            alert("Please select atleast one day");
+            return;
+        }
+
+        let current = new Date(start);
+        let count = 0;
+        while(true){
+            const dayLetter = DAYS[current.getDay()];
+            if(selectedDays.includes(dayLetter)){
+                dates.push(current.toISOString().split("T")[0]);
+            }
+
+            if(end && current >= end) break
+            if(!end && dates.length >= 9) break
+
+            current.setDate(current.getDate() + 1);
+            count++;
+
+        }
+    }
+    setGeneratedDates(dates);
+
     }
 
 
