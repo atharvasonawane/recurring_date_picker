@@ -6,7 +6,15 @@ import { useState } from "react"
 export default function RecurringDatePicker() {
 
     const[frequency, setFrequency] = useState("Daily");
+    const[selectedDays, setSelectedDays] = useState<string[]>([]);
+    console.log(selectedDays);
 
+    const toggleDay = (day:string) => {
+        setSelectedDays((prev) => 
+            prev.includes(day) ? prev.filter((d) => d !== day) : [...prev,day]
+        );
+        console.log(selectedDays);
+    };
     return (
 
         <div className="p-6 max-w-xl mx-auto bg-white shadow rounded space-y-6">
@@ -41,10 +49,12 @@ export default function RecurringDatePicker() {
             <div>
                 <label className="block mb-2">Select Days of Week</label>
                 <div className="flex gap-2">
-                    {["S", "M", "T", "W", "T", "F", "S"].map((day, idx) => (
+                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sa"].map((day, idx) => (
                         <button
                             key={idx}
-                            className="w-10 h-10 border rounded hover:bg-green-100"
+                            onClick={() => toggleDay(day)}
+                            className={`w-10 h-10 border rounded ${ selectedDays.includes(day) ? "bg-green-500 text-white" : "hover:bg-green-100" } `}
+                            
                         >
                             {day}
                         </button>
