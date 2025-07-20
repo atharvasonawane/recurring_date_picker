@@ -8,7 +8,7 @@ export default function RecurringDatePicker() {
     const [frequency, setFrequency] = useState("Daily");
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
     // console.log(selectedDays);
-    
+
     const [interval, setInterval] = useState(1);
     // console.log(interval);
 
@@ -16,12 +16,40 @@ export default function RecurringDatePicker() {
     const [endDate, setEndDate] = useState("");
     // console.log(startDate, endDate);
 
+    const [generatedDates, setGeneratedDates] = useState<string[]>([])
+
     const toggleDay = (day: string) => {
         setSelectedDays((prev) =>
             prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
         );
 
     };
+
+    const handleGenerate = () => {
+        if (!startDate) {
+            alert("Please select Start Date");
+            return;
+        }
+
+        const start = new Date(startDate);
+        const end = endDate ? new Date(endDate) : null;
+        const dates: string[] = [];
+
+        let current = new Date(start);
+        let count = 0;
+        while (true) {
+            dates.push(current.toISOString().split("T")[0]);
+
+            if (end && current >= end) break
+
+            if (!end && count >= 9) break
+            current.setDate(current.getDate() + interval);
+            count++;
+        }
+        setGeneratedDates(dates);
+    }
+
+
     return (
 
         <div className="p-6 max-w-xl mx-auto bg-white shadow rounded space-y-6">
@@ -92,7 +120,9 @@ export default function RecurringDatePicker() {
             </div>
 
             {/* BUTTONS */}
-            <button className="bg-blue-600 rounded px-2 py-3 font-bold text-gray-950">
+            <button className="bg-blue-600 rounded px-2 py-3 font-bold text-gray-950"
+                onClick={handleGenerate}
+            >
                 Generate Dates
             </button>
 
@@ -106,6 +136,15 @@ export default function RecurringDatePicker() {
                 )}
                 <p>Start Date: <span className="font-medium">{startDate || "Not selected"}</span></p>
                 <p>End Date: <span className="font-medium">{endDate || "Not selected"}</span></p>
+
+                <hr className="my-2" />
+                <p className="font-semibold">Generated Dates:</p>
+                <ul className="list-disc ml-5 text-sm">
+                    {generatedDates.length > 0
+                        ? generatedDates.map((date, idx) => <li key={idx}>{date}</li>)
+                        : <li>No dates generated yet.</li>
+                    }
+                </ul>
             </div>
 
         </div>
