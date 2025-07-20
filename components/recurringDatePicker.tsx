@@ -91,6 +91,19 @@ export default function RecurringDatePicker() {
     }
     setGeneratedDates(dates)
 
+    if(frequency == "Yearly"){
+        let current = new Date(start);
+        let count = 0;
+        while(true){
+            dates.push(current.toISOString().split("T")[0]);
+            if(end && current >= end) break;
+            if(!end && count >= 9) break;
+            current.setFullYear(current.getFullYear() + interval);
+            count++;
+        }
+    }
+    setGeneratedDates(dates)
+
     }
 
 
