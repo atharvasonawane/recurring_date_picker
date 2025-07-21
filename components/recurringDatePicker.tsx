@@ -3,27 +3,26 @@
 
 import { use, useState } from "react"
 import { useRecurrenceStore } from "@/store/recurrenctStore";
+import MiniCalendar from "./MiniCalendar";
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function RecurringDatePicker() {
 
-
-
     const {
-    frequency,
-    interval,
-    selectedDays,
-    startDate,
-    endDate,
-    generatedDates,
-    setFrequency,
-    setInterval,
-    toggleDay,
-    setStartDate,
-    setEndDate,
-    setGeneratedDates,
-  } = useRecurrenceStore()
+        frequency,
+        interval,
+        selectedDays,
+        startDate,
+        endDate,
+        generatedDates,
+        setFrequency,
+        setInterval,
+        toggleDay,
+        setStartDate,
+        setEndDate,
+        setGeneratedDates,
+    } = useRecurrenceStore()
 
     const handleGenerate = () => {
         if (!startDate) {
@@ -35,72 +34,72 @@ export default function RecurringDatePicker() {
         const end = endDate ? new Date(endDate) : null;
         const dates: string[] = [];
 
-        if(frequency == "Daily"){
+        if (frequency == "Daily") {
 
-        let current = new Date(start);
-        let count = 0;
-        while (true) {
-            dates.push(current.toISOString().split("T")[0]);
-
-            if (end && current >= end) break
-
-            if (!end && count >= 9) break
-            current.setDate(current.getDate() + interval);
-            count++;
-        }
-        setGeneratedDates(dates);
-    }
-
-    if(frequency == "Weekly"){
-
-        if(selectedDays.length === 0){
-            alert("Please select atleast one day");
-            return;
-        }
-
-        let current = new Date(start);
-        let count = 0;
-        while(true){
-            const dayLetter = DAYS[current.getDay()];
-            if(selectedDays.includes(dayLetter)){
+            let current = new Date(start);
+            let count = 0;
+            while (true) {
                 dates.push(current.toISOString().split("T")[0]);
+
+                if (end && current >= end) break
+
+                if (!end && count >= 9) break
+                current.setDate(current.getDate() + interval);
+                count++;
+            }
+            setGeneratedDates(dates);
+        }
+
+        if (frequency == "Weekly") {
+
+            if (selectedDays.length === 0) {
+                alert("Please select atleast one day");
+                return;
             }
 
-            if(end && current >= end) break
-            if(!end && dates.length >= 9) break
+            let current = new Date(start);
+            let count = 0;
+            while (true) {
+                const dayLetter = DAYS[current.getDay()];
+                if (selectedDays.includes(dayLetter)) {
+                    dates.push(current.toISOString().split("T")[0]);
+                }
 
-            current.setDate(current.getDate() + 1);
-            count++;
+                if (end && current >= end) break
+                if (!end && dates.length >= 9) break
 
+                current.setDate(current.getDate() + 1);
+                count++;
+
+            }
         }
-    }
-    setGeneratedDates(dates);
+        setGeneratedDates(dates);
 
-    if(frequency == "Monthly"){
-        let current = new Date(start);
-        let count = 0;
-        while(true){
-            dates.push(current.toISOString().split("T")[0]);
-            if(end && current >= end) break;
-            if(!end && count >= 9) break;
-            current.setMonth(current.getMonth() + interval);
-            count++;
+        if (frequency == "Monthly") {
+            let current = new Date(start);
+            let count = 0;
+            while (true) {
+                dates.push(current.toISOString().split("T")[0]);
+                if (end && current >= end) break;
+                if (!end && count >= 9) break;
+                current.setMonth(current.getMonth() + interval);
+                count++;
+            }
         }
-    }
-    setGeneratedDates(dates)
+        setGeneratedDates(dates)
 
-    if(frequency == "Yearly"){
-        let current = new Date(start);
-        let count = 0;
-        while(true){
-            dates.push(current.toISOString().split("T")[0]);
-            if(end && current >= end) break;
-            if(!end && count >= 9) break;
-            current.setFullYear(current.getFullYear() + interval);
-            count++;
+        if (frequency == "Yearly") {
+            let current = new Date(start);
+            let count = 0;
+            while (true) {
+                dates.push(current.toISOString().split("T")[0]);
+                if (end && current >= end) break;
+                if (!end && count >= 9) break;
+                current.setFullYear(current.getFullYear() + interval);
+                count++;
+            }
         }
-    }
-    setGeneratedDates(dates)
+        setGeneratedDates(dates)
 
     }
 
@@ -175,7 +174,7 @@ export default function RecurringDatePicker() {
             </div>
 
             {/* BUTTONS */}
-            <button className="bg-blue-600 rounded px-2 py-3 font-bold text-gray-950"
+            <button className="bg-blue-600 rounded px-2 py-3 font-bold text-white"
                 onClick={handleGenerate}
             >
                 Generate Dates
@@ -193,13 +192,10 @@ export default function RecurringDatePicker() {
                 <p>End Date: <span className="font-medium">{endDate || "Not selected"}</span></p>
 
                 <hr className="my-2" />
-                <p className="font-semibold">Generated Dates:</p>
-                <ul className="list-disc ml-5 text-sm">
-                    {generatedDates.length > 0
-                        ? generatedDates.map((date, idx) => <li key={idx}>{date}</li>)
-                        : <li>No dates generated yet.</li>
-                    }
-                </ul>
+                <div className="mt-4">
+                    <h3 className="font-medium mb-2">Recurring Dates Preview:</h3>
+                    <MiniCalendar dates={generatedDates} />
+                </div>
             </div>
 
         </div>
