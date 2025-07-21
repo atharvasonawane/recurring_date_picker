@@ -38,7 +38,7 @@ export default function MiniCalendar({ dates }: MiniCalendarProps) {
         {today.toLocaleString("default", { month: "long" })} {year}
       </div>
       <div className="grid grid-cols-7 gap-1 text-center text-sm">
-        {["S", "M", "T", "W", "T", "F", "S"].map((d) => (
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
           <div key={d} className="font-semibold">
             {d}
           </div>
